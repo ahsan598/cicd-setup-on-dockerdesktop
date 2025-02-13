@@ -69,11 +69,13 @@ kubectl expose deployment my-app --type=NodePort --port=8080
 
 
 ### 5️⃣ Testing & Validation
-✔️ Jenkins Console Output - Check pipeline logs
-✔️ SonarQube Dashboard - View code quality results
-✔️ Nexus Repository - Confirm artifacts stored
-✔️ Kubernetes Pods - Verify deployment:
-✔️ Access the Application
+✔️ **Jenkins Console Output** - Check pipeline logs
+✔️ **SonarQube Dashboard** - View code quality results
+✔️ **Nexus Repository** - Confirm artifacts stored
+✔️ **Kubernetes Pods** - Verify deployment:
+✔️ **Access the Application**
+
+
 
 ```sh
 kubectl get pods
