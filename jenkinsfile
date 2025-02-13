@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/myrepo/myapp.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        stage('Publish to Nexus') {
+            steps {
+                sh 'mvn deploy'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t myregistry/my-app:latest .'
+            }
+        }
+        stage('Push to Registry') {
+            steps {
+                sh 'docker push myregistry/my-app:latest'
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
