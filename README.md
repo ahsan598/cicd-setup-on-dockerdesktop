@@ -4,11 +4,12 @@
 This project will set up a CI/CD pipeline using Jenkins, SonarQube, and Nexus, and deploy an application to Kubernetes running on Docker Desktop.
 
 
-## Architecture Overview 📌
-1️⃣ Jenkins - CI server to build, test, and deploy
-2️⃣ SonarQube - Code quality and security analysis
-3️⃣ Nexus - Artifact repository for storing built packages
-4️⃣ Kubernetes (Docker Desktop) - Deployment environment
+## CI/CD Pipeline Components 📌
+
+1️⃣ **Jenkins** - CI server to build, test, and deploy  
+2️⃣ **SonarQube** - Code quality and security analysis  
+3️⃣ **Nexus** - Artifact repository for storing built packages  
+4️⃣ **Kubernetes (Docker Desktop)** - Deployment environment  
 
 
 ---
