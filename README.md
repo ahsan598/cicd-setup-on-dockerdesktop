@@ -68,23 +68,21 @@ kubectl expose deployment my-app --type=NodePort --port=8080
 - Create a Jenkinsfile
 
 
-### 5️⃣ Testing & Validation
-✔️ **Jenkins Console Output** - Check pipeline logs
-✔️ **SonarQube Dashboard** - View code quality results
-✔️ **Nexus Repository** - Confirm artifacts stored
-✔️ **Kubernetes Pods** - Verify deployment:
-✔️ **Access the Application**
+### 5️⃣ Testing & Validation  
+- **Jenkins Console Output** - Check pipeline logs  
+- **SonarQube Dashboard** - View code quality results  
+- **Nexus Repository** - Confirm artifacts stored  
+- **Kubernetes Pods** - Verify deployment  
+- **Access the Application**  
 
 
 
 ```sh
 kubectl get pods
 ```
-
 ```sh
 minikube service my-app --url
 ```
-
 
 ---
 
@@ -106,7 +104,7 @@ minikube service my-app --url
 - **Port mapping (`-p 8080:8080`)** → Access Jenkins UI via [http://localhost:8080](http://localhost:8080).  
 - **Volume (`-v jenkins_home:/var/jenkins_home`)** → Keeps Jenkins data safe even if the container is removed.
 
-
+---
 
 ### 2️⃣ Dockerfile for a custom Jenkins image that includes:
 - **Java** → Required for Jenkins builds
