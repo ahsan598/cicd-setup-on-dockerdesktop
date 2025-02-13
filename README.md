@@ -50,7 +50,6 @@ docker run -d --name nexus -p 8081:8081 sonatype/nexus3
 - Default login: admin / admin123 (password in logs)
 - Create a Maven Repository for storing artifacts
 
----
 
 ### 3️⃣ Deploy to Kubernetes (Docker Desktop)
 🔹 Create a Kubernetes Deployment
@@ -86,6 +85,7 @@ minikube service my-app --url
 ```
 
 
+---
 
 ### Command Breakdown of Jenkins
 
