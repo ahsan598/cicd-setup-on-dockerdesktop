@@ -1,17 +1,17 @@
 # CI/CD Pipeline Project with Jenkins, SonarQube, Nexus & Kubernetes Deployment on Docker Desktop
 
 
-This project will set up a CI/CD pipeline using Jenkins, SonarQube, and Nexus, and deploy an application to Kubernetes running on Docker Desktop.
+## This project will set up a CI/CD pipeline using Jenkins, SonarQube, and Nexus, and deploy an application to Kubernetes running on Docker Desktop.
 
 
-## CI/CD Pipeline Components 📌
+### CI/CD Pipeline Components 📌
 
 1️⃣ **Jenkins** - CI server to build, test, and deploy  
 2️⃣ **SonarQube** - Code quality and security analysis  
 3️⃣ **Nexus** - Artifact repository for storing built packages  
 4️⃣ **Kubernetes (Docker Desktop)** - Deployment environment  
 
-
+---
 
 ## 1️⃣ Prerequisites
 
@@ -20,9 +20,9 @@ This project will set up a CI/CD pipeline using Jenkins, SonarQube, and Nexus, a
 ✔️ **Helm** (for SonarQube & Nexus)  
 ✔️ **Jenkins, SonarQube, and Nexus** Docker images  
 
----
 
-2️⃣ Running Services in Docker Containers
+
+## 2️⃣ Running Services in Docker Containers
 
 🔹 Start Jenkins
 
@@ -77,7 +77,7 @@ docker run -d --name nexus -p 8081:8081 sonatype/nexus3
 
 ---
 
-3️⃣ Deploy to Kubernetes (Docker Desktop)
+## 3️⃣ Deploy to Kubernetes (Docker Desktop)
 🔹 Create a Kubernetes Deployment
 
 - Apply the deployment:
@@ -91,11 +91,11 @@ kubectl expose deployment my-app --type=NodePort --port=8080
 ```
 
 
-4️⃣ Jenkins Pipeline Script
+## 4️⃣ Jenkins Pipeline Script
 🔹 Create a Jenkinsfile
 
 
-5️⃣ Testing & Validation
+## 5️⃣ Testing & Validation
 ✔️ Jenkins Console Output - Check pipeline logs
 ✔️ SonarQube Dashboard - View code quality results
 ✔️ Nexus Repository - Confirm artifacts stored
