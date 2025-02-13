@@ -12,14 +12,15 @@ This project will set up a CI/CD pipeline using Jenkins, SonarQube, and Nexus, a
 4️⃣ **Kubernetes (Docker Desktop)** - Deployment environment  
 
 
+
+## 1️⃣ Prerequisites
+
+✔️ **Docker Desktop** (with Kubernetes enabled)  
+✔️ **kubectl** installed  
+✔️ **Helm** (for SonarQube & Nexus)  
+✔️ **Jenkins, SonarQube, and Nexus** Docker images  
+
 ---
-
-1️⃣ Prerequisites
-✔️ Docker Desktop (with Kubernetes enabled)
-✔️ kubectl installed
-✔️ Helm (for SonarQube & Nexus)
-✔️ Jenkins, SonarQube, and Nexus Docker Images
-
 
 2️⃣ Running Services in Docker Containers
 
