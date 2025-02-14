@@ -34,7 +34,7 @@ docker run -d --name jenkins -p 8080:8080 -p 50000:50000 \
 2️⃣ **Start SonarQube**
 
 ```sh
-docker run -d --name sonarqube -p 9000:9000 sonarqube:lts
+docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 ```
 - Access SonarQube at http://localhost:9000
 - Default login: admin / admin

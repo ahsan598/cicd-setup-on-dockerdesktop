@@ -1,27 +1,26 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:lts-alpine
 
 # Switch to root user to install dependencies
 USER root
 
-# Install Java, Docker CLI, and necessary dependencies
-RUN apt-get update && apt-get install -y \
-    openjdk-17-jdk \
-    docker.io \
+# Install Java (headless), Docker CLI, and essential tools
+RUN apk add --no-cache \
+    openjdk17-jre-headless \
+    docker-cli \
     curl \
     wget \
-    && apt-get clean
+    ca-certificates \
+    tini \
+    shadow  # Needed for usermod
 
-# Install Trivy
-RUN TRIVY_VERSION=$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep tag_name | cut -d '"' -f 4 | sed 's/v//') \
-    && wget https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz \
-    && tar zxvf trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz \
-    && mv trivy /usr/local/bin/ \
-    && chmod +x /usr/local/bin/trivy \
-    && rm -f trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
+# Install Trivy on Alpine
+RUN curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh \
+    && install -m 0755 ./bin/trivy /usr/local/bin/trivy \
+    && rm -rf ./bin
 
-# Allow Jenkins user to run Docker commands
-RUN group_exists=$(getent group docker) || groupadd -g 999 docker \
-    && usermod -aG docker jenkins
+# Ensure Jenkins user can run Docker commands
+RUN addgroup -g 999 docker || true \
+    && usermod -aG docker jenkins  # Corrected usermod syntax for Alpine
 
 # Switch back to Jenkins user
 USER jenkins
