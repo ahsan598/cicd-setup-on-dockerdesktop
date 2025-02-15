@@ -6,7 +6,7 @@ USER root
 # Install Java (headless), Docker CLI, and essential tools
 RUN apk add --no-cache \
     openjdk17-jre-headless \
-    docker-cli \
+    docker.io \
     curl \
     wget \
     ca-certificates \

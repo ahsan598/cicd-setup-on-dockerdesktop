@@ -5,7 +5,7 @@ USER root
 
 # Install essential dependencies, ensuring minimal image size
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    openjdk-17-jdk-headless \
+    openjdk-17-jdk \
     docker.io \
     curl \
     wget \
