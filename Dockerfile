@@ -1,29 +1,32 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:lts-alpine
 
 # Switch to root user to install dependencies
 USER root
 
-# Install essential dependencies, ensuring minimal image size
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    openjdk-17-jdk \
-    docker.io \
-    curl \
+# Set default shell to /bin/ash (Alpine uses ash instead of bash)
+SHELL ["/bin/ash", "-c"]
+
+# Install Docker and required dependencies
+RUN apk add --no-cache \
+    docker \
+    openjdk17 \
     wget \
-    bash \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*  # Reduce image size
+    curl \
+    ca-certificates \
+    git \
+    tini
 
-# Install Trivy (Minimal & Reliable)
-RUN curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh \
-    && install -m 0755 ./bin/trivy /usr/local/bin/trivy \
-    && rm -rf ./bin
+# Ensure Jenkins user can run Docker (only add user, as group already exists)
+RUN adduser jenkins docker
 
-# Ensure Jenkins user can run Docker commands
-RUN groupadd -g 999 docker || true \
-    && usermod -aG docker jenkins
+# Ensure Jenkins user has access to Docker socket (if mounted)
+RUN chown jenkins:docker /var/run/docker.sock || true
 
 # Switch back to Jenkins user
 USER jenkins
 
+# Expose Jenkins default port
+EXPOSE 8080
+
 # Start Jenkins
-ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
+ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
