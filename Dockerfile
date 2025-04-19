@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     curl \
     ca-certificates \
     git \
+    maven \
     tini
 
 # Ensure Jenkins user can run Docker (only add user, as group already exists)
@@ -26,7 +27,7 @@ RUN chown jenkins:docker /var/run/docker.sock || true
 USER jenkins
 
 # Expose Jenkins default port
-EXPOSE 8080
+EXPOSE 8080 50000
 
 # Start Jenkins
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
