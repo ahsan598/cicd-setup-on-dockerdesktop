@@ -1,4 +1,4 @@
-# CI/CD Pipeline Project with Jenkins, SonarQube, Nexus & Kubernetes Deployment on Docker Desktop.
+# CI/CD Pipeline Project includes Jenkins, SonarQube, Nexus & Kubernetes with Docker Desktop.
 
 
 ### CI/CD Pipeline Components 📌
@@ -27,8 +27,8 @@ docker run -d --name jenkins -p 8080:8080 -p 50000:50000 \
   -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
 ```
 - Access Jenkins at http://localhost:8080
-- Unlock Jenkins: docker logs jenkins
-- Install plugins: Pipeline, Git, Kubernetes, SonarQube Scanner, Nexus Artifact Uploader
+- Unlock Jenkins: Admin password will be find under jenkins logs
+- Install plugins: Git, Docker, Kubernetes, SonarQube Scanner, Nexus Artifact Uploader
 
 
 2️⃣ **Start SonarQube**
@@ -37,7 +37,7 @@ docker run -d --name jenkins -p 8080:8080 -p 50000:50000 \
 docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 ```
 - Access SonarQube at http://localhost:9000
-- Default login: admin / admin
+- Default login: user: admin / pwd: admin
 - Generate a SonarQube Token for Jenkins integration
 
 
@@ -47,7 +47,7 @@ docker run -d --name sonarqube -p 9000:9000 sonarqube:lts-community
 docker run -d --name nexus -p 8081:8081 sonatype/nexus3
 ```
 - Access Nexus at http://localhost:8081
-- Default login: admin / admin123 (password in logs)
+- Default login: user: admin / pwd: (under nexus3/admin.pwd)
 - Create a Maven Repository for storing artifacts
 
 
@@ -86,60 +86,35 @@ minikube service my-app --url
 
 ---
 
-### 1️⃣ Command Breakdown of Jenkins
+### Alternative Approach:
 
-| **Option** | **Explanation** |
-|-----------|----------------|
-| `docker run` | Runs a new container. |
-| `-d` | Runs the container in detached mode (background). |
-| `--name jenkins` | Assigns the name `jenkins` to the container. |
-| `-p 8080:8080` | Maps port `8080` on the host to port `8080` in the container (Jenkins UI). |
-| `-p 50000:50000` | Maps port `50000` for Jenkins agent communication (used for distributed builds). |
-| `-v jenkins_home:/var/jenkins_home` | Creates a named volume `jenkins_home` and maps it to `/var/jenkins_home` inside the container to persist Jenkins data (jobs, plugins, configurations). |
-| `jenkins/jenkins:lts` | Pulls and runs the latest long-term support (LTS) version of Jenkins from Docker Hub. |
-
-✅ **Why Use These Options?**
-
-- **Detached mode (`-d`)** → Runs in the background.  
-- **Port mapping (`-p 8080:8080`)** → Access Jenkins UI via [http://localhost:8080](http://localhost:8080).  
-- **Volume (`-v jenkins_home:/var/jenkins_home`)** → Keeps Jenkins data safe even if the container is removed.
-
----
-
-### 2️⃣ Dockerfile for a custom Jenkins image that includes:
-- **Java** → Required for Jenkins builds
-- **Docker CLI** → Allows Jenkins to interact with the Docker daemon on WSL
-- **Trivy** → Security scanning for container images
+If you prefer to keep your Jenkins image minimal and avoid installing additional tools directly into it, consider using Docker-in-Docker (DinD) or sidecar containers for Docker and Trivy. This approach can enhance security and modularity.
 
 
-1️⃣ **Build the Docker Image**
-```sh
-docker build -t custom-jenkins .
-```
+🔍 What is Docker-in-Docker (DinD)?
 
-2️⃣ **Run the Jenkins container with Docker socket access**
-```sh
-docker run -d --name jenkins -p 8080:8080 -p 50000:50000 \
-  -v jenkins_home:/var/jenkins_home \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  --group-add 999 \
-  custom-jenkins
-```
+**Docker-in-Docker (DinD)** means running a Docker daemon inside a Docker container. This is useful when you want your container (e.g., Jenkins) to build and run Docker containers itself, without installing Docker directly into the Jenkins image.
 
-**Note:**
-- `-v /var/run/docker.sock:/var/run/docker.sock` → Allows Jenkins to communicate with the Docker daemon on WSL.
-- `--group-add 999` → Ensures Jenkins has permission to use Docker.
+🧍 What are Sidecar Containers?
 
+A **sidecar container** is a separate container running alongside your main application container (like Jenkins). Instead of bundling everything (like Docker or Trivy) into the Jenkins image, you let the sidecars handle those tasks.
 
-3️⃣ **Check Jenkins logs for errors**
-```sh
-docker logs -f jenkins
-```
+🧩 Example Setup / How It Works:
+- **Jenkins container**: Runs the main Jenkins server.
+- **Docker sidecar(dind)**: Docker daemon running in a sidecar, if you don't want to use host Docker socket.
+- **Trivy**: Just runs as a sidecar and can be triggered via Jenkins jobs using the Docker CLI or Script.
 
-4️⃣ **Confirm Java, Docker, and Trivy inside Jenkins container**
-```sh
-docker exec -it jenkins bash
-java -version
-docker --version
-trivy --version
-```
+You can install **Maven and JDK**:
+- Through Jenkins UI → Global Tool Configuration.
+- Or in a Jenkins job using shell commands like apt install maven.
+
+✅ Let’s create a setup using Docker Compose that:
+
+- Runs Jenkins in a container.
+- Runs Docker daemon in another container (DinD).
+- Jenkins connects to Docker via the DinD socket.
+
+✅ Best Practices:
+
+- Docker (DinD) runs a Docker daemon — it needs privileged mode and possibly volume mounts.
+- Trivy is a vulnerability scanner — it doesn’t need to be privileged and can run independently.
