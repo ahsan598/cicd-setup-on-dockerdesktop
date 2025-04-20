@@ -1,14 +1,14 @@
-Absolutely! Let’s break down the entire `docker-compose.yml` line-by-line so you fully understand how Jenkins, Docker, and Trivy are working together in this setup:
+#### Let’s break down the entire `docker-compose.yml` line-by-line so you fully understand how Jenkins, Docker, and Trivy are working together in this setup:
 
-✅ version: '3.8'
+### ✅ version: '3.8'
 This defines the version of the Docker Compose specification to use. Version 3.8 is compatible with modern Docker engines and provides full features for defining services, networks, and volumes.
 
-🧩 services:
+### 🧩 services:
 This section defines each containerized application (or microservice). We have three here: `jenkins`, `docker`, and `trivy`.
 
 ---
 
-🚀 Jenkins: (Main CI/CD Server)
+### 🚀 Jenkins: (Main CI/CD Server)
 ```sh
   jenkins:
     image: jenkins/jenkins:lts
@@ -53,7 +53,7 @@ This section defines each containerized application (or microservice). We have t
 
 ---
 
-🐳 Docker: (Docker Daemon Sidecar - DinD)
+### 🐳 Docker: (Docker Daemon Sidecar - DinD)
 
 ```sh
   docker:
@@ -77,7 +77,7 @@ This section defines each containerized application (or microservice). We have t
 
 ---
 
-🔍 Trivy: (Vulnerability Scanner)
+### 🔍 Trivy: (Vulnerability Scanner)
 
 ```sh
   trivy:
@@ -95,7 +95,7 @@ This section defines each containerized application (or microservice). We have t
 
 ---
 
-🗂️ volumes: (Persistent Storage)
+### 🗂️ volumes: (Persistent Storage)
 
 ```sh
 volumes:
@@ -110,7 +110,7 @@ volumes:
 
 ---
 
-🧠 Summary of Workflow:
+### 🧠 Summary of Workflow:
 
 1. Jenkins starts, and has access to:
    - Host Docker (via socket) OR DinD (via sidecar).
@@ -121,7 +121,7 @@ volumes:
    - Run `trivy image <image-name>` to scan them.
    - Deploy or test as needed.
 
-🔧 Optional Enhancements:
+### 🔧 Optional Enhancements:
 - Install Maven or JDK in Jenkins UI under "Global Tool Configuration".
 - Create Jenkins Pipelines that:
     - Build a Docker image.
@@ -131,7 +131,7 @@ volumes:
 
 ---
 
-✅ How to Properly Build and Run
+### ✅ How to Properly Build and Run
 If you only have a `docker-compose.yml`:
 To run everything (and build if needed):
 
@@ -146,7 +146,7 @@ That command:
 - Starts all containers
 
 
-✅ Full control over containers
+### ✅ Full control over containers
 
 ```sh
 docker-compose up -d         # Start in detached mode

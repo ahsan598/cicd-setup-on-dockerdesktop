@@ -91,15 +91,15 @@ minikube service my-app --url
 If you prefer to keep your Jenkins image minimal and avoid installing additional tools directly into it, consider using Docker-in-Docker (DinD) or sidecar containers for Docker and Trivy. This approach can enhance security and modularity.
 
 
-🔍 What is Docker-in-Docker (DinD)?
+### 🔍 What is Docker-in-Docker (DinD)?
 
 **Docker-in-Docker (DinD)** means running a Docker daemon inside a Docker container. This is useful when you want your container (e.g., Jenkins) to build and run Docker containers itself, without installing Docker directly into the Jenkins image.
 
-🧍 What are Sidecar Containers?
+### 🧍 What are Sidecar Containers?
 
 A **sidecar container** is a separate container running alongside your main application container (like Jenkins). Instead of bundling everything (like Docker or Trivy) into the Jenkins image, you let the sidecars handle those tasks.
 
-🧩 Example Setup / How It Works:
+### 🧩 Example Setup / How It Works:
 - **Jenkins container**: Runs the main Jenkins server.
 - **Docker sidecar(dind)**: Docker daemon running in a sidecar, if you don't want to use host Docker socket.
 - **Trivy**: Just runs as a sidecar and can be triggered via Jenkins jobs using the Docker CLI or Script.
@@ -108,13 +108,13 @@ You can install **Maven and JDK**:
 - Through Jenkins UI → Global Tool Configuration.
 - Or in a Jenkins job using shell commands like apt install maven.
 
-✅ Let’s create a setup using Docker Compose that:
+### ✅ Let’s create a setup using Docker Compose that:
 
 - Runs Jenkins in a container.
 - Runs Docker daemon in another container (DinD).
 - Jenkins connects to Docker via the DinD socket.
 
-✅ Best Practices:
+### ✅ Best Practices:
 
 - Docker (DinD) runs a Docker daemon — it needs privileged mode and possibly volume mounts.
 - Trivy is a vulnerability scanner — it doesn’t need to be privileged and can run independently.
