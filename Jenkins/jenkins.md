@@ -1,5 +1,5 @@
 
-1️⃣ Command Breakdown of Jenkins Command
+### 1️⃣ Command Breakdown of Jenkins Command
 
 ```sh
 docker run -d --name jenkins -p 8080:8080 -p 50000:50000 \
@@ -17,7 +17,7 @@ docker run -d --name jenkins -p 8080:8080 -p 50000:50000 \
 | `jenkins/jenkins:lts` | Pulls and runs the latest long-term support (LTS) version of Jenkins from Docker Hub. |
 
 
-✅ **Why Use These Options?**
+### ✅ **Why Use These Options?**
 
 - **Detached mode (`-d`)** → Runs in the background.  
 - **Port mapping (`-p 8080:8080`)** → Access Jenkins UI via [http://localhost:8080](http://localhost:8080).  
@@ -26,7 +26,7 @@ docker run -d --name jenkins -p 8080:8080 -p 50000:50000 \
 
 ---
 
-2️⃣ Alternative Approcah
+### 2️⃣ Alternative Approcah
 
 ### Sample Jenkins Job Shell Script (to use Docker and Trivy)
 
@@ -45,7 +45,7 @@ docker exec -it trivy trivy image nginx
 ```
 
 
-🔁 Jenkins Usage
+### 🔁 Jenkins Usage
 In your Jenkins job (pipeline or freestyle), you can:
 
 ```sh
